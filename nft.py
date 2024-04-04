@@ -80,9 +80,13 @@ def generate_single_image(filepaths, output_filename=None):
         # If output filename is not specified, use timestamp to name the image and save it in output/single_images
         if not os.path.exists(os.path.join('output', 'single_images')):
             os.makedirs(os.path.join('output', 'single_images'))
-        bg.save(os.path.join('output', 'single_images', str(int(time.time())) + '.png'))
-
-
+        output_filename = os.path.join('output', 'single_images', str(int(time.time())) + '.png')
+        bg.save(output_filename)
+    # convert image to jpg
+    im = Image.open(output_filename)
+    new_i = im.convert('RGB')
+    os.remove(output_filename)
+    new_i.save(output_filename.replace("png", "jpg"))
 # Generate a single image with all possible traits
 # generate_single_image(['Background/green.png', 
 #                        'Body/brown.png', 
@@ -175,7 +179,7 @@ def generate_images(edition, count, drop_dup=True):
         # Populate the rarity table with metadata of newly created image
         for idx, trait in enumerate(trait_sets):
             if trait is not None:
-                rarity_table[CONFIG[idx]['name']].append(trait[: -1 * len('.png')])
+                rarity_table[CONFIG[idx]['name']].append(trait[: -1 * len('.jpg')])
             else:
                 rarity_table[CONFIG[idx]['name']].append('none')
     
@@ -192,11 +196,11 @@ def generate_images(edition, count, drop_dup=True):
 
         #op_path = os.path.join('output', 'edition ' + str(edition))
         for i in img_tb_removed:
-            os.remove(os.path.join(op_path, str(i).zfill(zfill_count) + '.png'))
+            os.remove(os.path.join(op_path, str(i).zfill(zfill_count) + '.jpg'))
 
         # Rename images such that it is sequentialluy numbered
         for idx, img in enumerate(sorted(os.listdir(op_path))):
-            os.rename(os.path.join(op_path, img), os.path.join(op_path, str(idx).zfill(zfill_count) + '.png'))
+            os.rename(os.path.join(op_path, img), os.path.join(op_path, str(idx).zfill(zfill_count) + '.jpg'))
     
     
     # Modify rarity table to reflect removals
