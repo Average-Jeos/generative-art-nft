@@ -30,7 +30,7 @@ CONFIG = [
     },
     {
         'id': 2,
-        'name': 'who_dis',
+        'name': 'who_dis?',
         'directory': 'Who Dis',
         'required': True,
         'rarity_weights': None,
@@ -79,7 +79,7 @@ CONFIG = [
     },
     {
         'id': 9,
-        'name': 'jabbed',
+        'name': 'jabbed?',
         'directory': 'Jabbed',
         'required': False,
         'rarity_weights': [40, 20],
