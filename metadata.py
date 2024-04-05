@@ -55,11 +55,7 @@ def get_attribute_metadata(metadata_path):
     df = df.drop('Unnamed: 0', axis = 1)
     df.columns = [clean_attributes(col) for col in df.columns]
 
-    # Get zfill count based on number of images generated
-    # -1 according to nft.py. Otherwise not working for 100 NFTs, 1000 NTFs, 10000 NFTs and so on
-    zfill_count = len(str(df.shape[0]-1))
-
-    return df, zfill_count
+    return df
 
 # Main function that generates the JSON metadata
 def main():
@@ -82,8 +78,8 @@ def main():
     if not os.path.exists(json_path):
         os.makedirs(json_path)
     
-    # Get attribute data and zfill count
-    df, zfill_count = get_attribute_metadata(metadata_path)
+    # Get attribute data
+    df = get_attribute_metadata(metadata_path)
     
     for idx, row in progressbar(df.iterrows()):    
     
@@ -94,7 +90,7 @@ def main():
         item_json['name'] = item_json['name'] + str(idx)
 
         # Append image PNG file name to base image path
-        item_json['image'] = item_json['image'] + '/' + str(idx).zfill(zfill_count) + '.png'
+        item_json['image'] = item_json['image'] + '/' + str(idx) + '.png'
         
         # Convert pandas series to dictionary
         attr_dict = dict(row)
