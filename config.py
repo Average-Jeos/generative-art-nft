@@ -47,7 +47,7 @@ CONFIG = [
         'name': 'face',
         'directory': 'Face',
         'required': False,
-        'rarity_weights': [70, 10, 20, 20],
+        'rarity_weights': [140, 10, 40, 40],
     },
     {
         'id': 5,
