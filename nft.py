@@ -157,6 +157,9 @@ def generate_images(edition, count, drop_dup=True):
     # Define output path to output/edition {edition_num}
     op_path = os.path.join('output', 'edition ' + str(edition), 'images')
 
+    # Will require this to name final images as 000, 001,...
+    zfill_count = len(str(count - 1))
+
     # Create output directory if it doesn't exist
     if not os.path.exists(op_path):
         os.makedirs(op_path)
@@ -165,7 +168,7 @@ def generate_images(edition, count, drop_dup=True):
     for n in progressbar(range(count)):
         
         # Set image name
-        image_name = str(n) + '.png'
+        image_name = str(n).zfill(zfill_count) + '.png'
         
         # Get a random set of valid traits based on rarity weights
         trait_sets, trait_paths = generate_trait_set_from_config()
@@ -176,7 +179,7 @@ def generate_images(edition, count, drop_dup=True):
         # Populate the rarity table with metadata of newly created image
         for idx, trait in enumerate(trait_sets):
             if trait is not None:
-                rarity_table[CONFIG[idx]['name']].append(trait[: -1 * len('.jpg')])
+                rarity_table[CONFIG[idx]['name']].append(trait[: -1 * len('.png')])
             else:
                 rarity_table[CONFIG[idx]['name']].append('none')
     
@@ -191,9 +194,9 @@ def generate_images(edition, count, drop_dup=True):
         # Remove duplicate images
         print("Removing %i images..." % (len(img_tb_removed)))
 
-        #op_path = os.path.join('output', 'edition ' + str(edition))
+        # op_path = os.path.join('output', 'edition ' + str(edition))
         for i in img_tb_removed:
-            os.remove(os.path.join(op_path, str(i) + '.jpg'))
+            os.remove(os.path.join(op_path, str(i).zfill(zfill_count) + '.jpg'))
 
         # Rename images such that it is sequentialluy numbered
         for idx, img in enumerate(sorted(os.listdir(op_path))):
