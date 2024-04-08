@@ -47,7 +47,7 @@ CONFIG = [
         'name': 'face',
         'directory': 'Face',
         'required': False,
-        'rarity_weights': [140, 10, 40, 40],
+        'rarity_weights': [210, 10, 40, 40],
     },
     {
         'id': 5,
@@ -61,21 +61,21 @@ CONFIG = [
         'name': 'head',
         'directory': 'Head',
         'required': False,
-        'rarity_weights': [40, 10, 10, 20, 20, 20, 20, 30, 30, 30, 30, 30, 30, 30, 30, 30, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40],
+        'rarity_weights': [330, 10, 10, 20, 20, 20, 20, 30, 30, 30, 30, 30, 30, 30, 30, 30, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40],
     },
     {
         'id': 7,
         'name': 'face_mask',
         'directory': 'Face Mask',
         'required': False,
-        'rarity_weights': [40, 10, 20, 30, 40],
+        'rarity_weights': [230, 10, 20, 30, 40],
     },
     {
         'id': 8,
         'name': 'glasses',
         'directory': 'Glasses',
         'required': False,
-        'rarity_weights': [40, 10, 20, 20, 30, 30],
+        'rarity_weights': [250, 10, 20, 20, 30, 30],
     },
     {
         'id': 9,
