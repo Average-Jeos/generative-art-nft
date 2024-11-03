@@ -90,7 +90,7 @@ def main():
         item_json['name'] = item_json['name'] + str(idx)
 
         # Append image PNG file name to base image path
-        item_json['image'] = item_json['image'] + '/' + str(idx) + '.jpg'
+        item_json['image'] = item_json['image'] + '/' + str(idx) + '.png'
         
         # Convert pandas series to dictionary
         attr_dict = dict(row)

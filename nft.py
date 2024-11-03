@@ -47,9 +47,7 @@ def parse_config():
             rarities = layer['rarity_weights']
         else:
             raise ValueError("Rarity weights is invalid")
-        
         rarities = get_weighted_rarities(rarities)
-        
         # Re-assign final values to main CONFIG
         layer['rarity_weights'] = rarities
         layer['cum_rarity_weights'] = np.cumsum(rarities)
@@ -82,11 +80,6 @@ def generate_single_image(filepaths, output_filename=None):
             os.makedirs(os.path.join('output', 'single_images'))
         output_filename = os.path.join('output', 'single_images', str(int(time.time())) + '.png')
         bg.save(output_filename)
-    # convert image to jpg
-    im = Image.open(output_filename)
-    new_i = im.convert('RGB')
-    os.remove(output_filename)
-    new_i.save(output_filename.replace("png", "jpg"))
 # Generate a single image with all possible traits
 # generate_single_image(['Background/green.png', 
 #                        'Body/brown.png', 
@@ -121,7 +114,20 @@ def select_index(cum_rarities, rand):
 
 # Generate a set of traits given rarities
 def generate_trait_set_from_config():
-    
+    # conditionals
+    # Neck
+    body_pedo = 28
+    neck_none = 4
+    # Glasses
+    heads_excluded_from_glasses = [1, 7, 12, 21, 23]
+    glasses_none = 5
+    heads_excluded_from_eye_patch_glasses = [1, 2, 5, 6, 8, 11, 12, 15, 16, 17, 21, 23]
+    eye_patch_glasses = 3
+    # Hands
+    bodies_excluded_from_these_hands = [0, 1, 2, 4, 8, 17]
+    these_hands = [0, 2, 9, 16, 21, 22]
+
+    trait_idxs = []
     trait_set = []
     trait_paths = []
     
@@ -134,6 +140,27 @@ def generate_trait_set_from_config():
 
         # Select an element index based on random number and cumulative rarity weights
         idx = select_index(cum_rarities, rand_num)
+        # Check conditionals
+        # If selecting neck
+        if len(trait_idxs) == 2:
+            if trait_idxs[1] == body_pedo:
+                idx = neck_none
+        # If selecting glasses trait
+        elif len(trait_idxs) == 5:
+            if trait_idxs[4] in heads_excluded_from_glasses:
+                idx = glasses_none
+            elif trait_idxs[4] in heads_excluded_from_eye_patch_glasses:
+                while idx == 3:
+                    rand_num = random.random()
+                    idx = select_index(cum_rarities, rand_num)
+        elif len(trait_idxs) == 6:
+            if trait_idxs[1] in bodies_excluded_from_these_hands:
+                while idx in these_hands:
+                    rand_num = random.random()
+                    idx = select_index(cum_rarities, rand_num)
+
+        # Add trait idx to trait_idxs = []
+        trait_idxs.append(idx)
 
         # Add selected trait to trait set
         trait_set.append(traits[idx])
@@ -196,11 +223,11 @@ def generate_images(edition, count, drop_dup=True):
 
         # op_path = os.path.join('output', 'edition ' + str(edition))
         for i in img_tb_removed:
-            os.remove(os.path.join(op_path, str(i).zfill(zfill_count) + '.jpg'))
+            os.remove(os.path.join(op_path, str(i).zfill(zfill_count) + '.png'))
 
         # Rename images such that it is sequentialluy numbered
         for idx, img in enumerate(sorted(os.listdir(op_path))):
-            os.rename(os.path.join(op_path, img), os.path.join(op_path, str(idx) + '.jpg'))
+            os.rename(os.path.join(op_path, img), os.path.join(op_path, str(idx) + '.png'))
     
     
     # Modify rarity table to reflect removals
