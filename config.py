@@ -34,7 +34,7 @@ CONFIG = [
         'name': 'background',
         'directory': '00_Background',
         'required': True,
-        'rarity_weights': [22, 22, 34, 34, 48, 48, 48, 48, 48, 48, 60, 60, 60, 60, 60, 60, 60, 60, 60, 60],
+        'rarity_weights': [0, 22, 22, 34, 34, 48, 48, 48, 48, 48, 48, 60, 60, 60, 60, 60, 60, 60, 60, 60, 60],
     },
     {
         'id': 2,

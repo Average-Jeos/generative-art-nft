@@ -141,8 +141,10 @@ def generate_trait_set_from_config():
         # Select an element index based on random number and cumulative rarity weights
         idx = select_index(cum_rarities, rand_num)
         # Check conditionals
+        if len(trait_idxs) == 0:
+            idx = 0
         # If selecting neck
-        if len(trait_idxs) == 2:
+        elif len(trait_idxs) == 2:
             if trait_idxs[1] == body_pedo:
                 idx = neck_none
         # If selecting glasses trait
